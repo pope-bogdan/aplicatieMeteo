@@ -13,7 +13,7 @@ class ModelTest {
     @org.junit.jupiter.api.Test
     void setTara() {
         test.setTara("HU");
-        assertEquals(test.getTara(),"HU");
+        assertEquals("HU",test.getTara());
     }
 
     @org.junit.jupiter.api.Test
@@ -25,20 +25,29 @@ class ModelTest {
     @org.junit.jupiter.api.Test
     void setLatitudine() {
         test.setLatitudine(10);
-        assertEquals(test.getLatitudine().lastElement().doubleValue(),10);
+        assertEquals(10,test.getLatitudine().lastElement().doubleValue());
     }
 
     @org.junit.jupiter.api.Test
     void setLongitudine() {
         test.setLongitudine(10);
-        assertEquals(test.longitudineProperty().lastElement().doubleValue(),10);
+        assertEquals(10,test.longitudineProperty().lastElement().doubleValue());
     }
 
     @Test
     void getTara() {
-        assertEquals(test.getTara(),"RO");
+        assertEquals("RO",test.getTara());
     }
-
+    @Test
+    void getTaraFull()
+    {
+        assertEquals("Romania",test.getTaraFull().toString());
+    }
+    @Test
+    void taraFullProperty()
+    {
+        assertEquals("Romania",test.taraFullProperty().getValue().toString());
+    }
     @org.junit.jupiter.api.Test
     void taraProperty() {
         assertEquals("RO",test.taraProperty().getValue().toString());
@@ -46,7 +55,7 @@ class ModelTest {
 
     @org.junit.jupiter.api.Test
     void orasProperty() {
-        assertEquals(test.orasProperty().lastElement().getValue().toString(),"Bucharest");
+        assertEquals("Bucharest",test.orasProperty().lastElement().getValue().toString());
     }
 
     @org.junit.jupiter.api.Test
