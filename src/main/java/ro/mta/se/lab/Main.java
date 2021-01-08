@@ -1,24 +1,21 @@
 package ro.mta.se.lab;
 
 import javafx.application.Application;
-import javafx.beans.property.DoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import ro.mta.se.lab.controller.Controller;
 import ro.mta.se.lab.model.Model;
-import ro.mta.se.lab.ro.mta.se.lab.controller.Controller;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URL;
-import java.security.cert.TrustAnchor;
 import java.util.Scanner;
 
 public class Main extends Application {
     private ObservableList<Model> meteoData = FXCollections.observableArrayList();
+
     public static void main(String[] args)
     {
         launch(args);

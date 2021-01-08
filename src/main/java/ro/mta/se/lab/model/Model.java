@@ -2,17 +2,28 @@ package ro.mta.se.lab.model;
 
 import javafx.beans.property.*;
 
+import java.util.Locale;
 import java.util.Vector;
 
 public class Model {
-    StringProperty Tara;
-   Vector<StringProperty> Oras;
+    StringProperty TaraCode;
+    StringProperty TaraFull;
+    Vector<StringProperty> Oras;
     Vector<DoubleProperty> latitudine;
     Vector<DoubleProperty> longitudine;
 
+    public String getTaraFull() {
+        return TaraFull.get();
+    }
+
+    public StringProperty taraFullProperty() {
+        return TaraFull;
+    }
 
     public Model(String tara, String oras, double latitudine, double longitudine) {
-        Tara =  new SimpleStringProperty(tara);
+        TaraCode =  new SimpleStringProperty(tara);
+        Locale l = new Locale("", tara);
+        TaraFull=   new SimpleStringProperty(l.getDisplayCountry());
         Oras = new Vector<StringProperty>();
         this.latitudine=new Vector<DoubleProperty>();
         this.longitudine=new Vector<DoubleProperty>();
@@ -22,7 +33,7 @@ public class Model {
     }
 
     public void setTara(String tara) {
-        this.Tara.set(tara);
+        this.TaraCode.set(tara);
     }
 
     public void setOras(String oras) {
@@ -39,11 +50,11 @@ public class Model {
     }
 
     public String getTara() {
-        return Tara.get();
+        return TaraCode.get();
     }
 
     public StringProperty taraProperty() {
-        return Tara;
+        return TaraCode;
     }
 
     public Vector<StringProperty> orasProperty() {
