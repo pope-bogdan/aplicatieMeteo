@@ -12,7 +12,13 @@ import ro.mta.se.lab.model.Model;
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
-
+/**
+ * Clasa de baza a aplicatiei.
+ * Aici se initializeaza interfata grafica si se citesc informatiile
+ *  din fisier.
+ * @author Bogdan Popescu
+ * @see ro.mta.se.lab.controller.Controller
+ */
 public class Main extends Application {
     private ObservableList<Model> meteoData = FXCollections.observableArrayList();
 
