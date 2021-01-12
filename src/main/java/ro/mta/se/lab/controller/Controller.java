@@ -26,6 +26,13 @@ import ro.mta.se.lab.model.oras;
 
 import javax.lang.model.type.NullType;
 
+/**
+ * Clasa ce se ocupa de functionalitatile interfetei grafice.
+ *
+ * @author Bogdan Popescu
+ * @see Model
+ * @see oras
+ */
 public class Controller {
     private ObservableList<Model> meteoData;
     private ObservableList<ro.mta.se.lab.model.oras> orasData = FXCollections.observableArrayList();
@@ -50,10 +57,20 @@ public class Controller {
     @FXML
     private Label umiditate;
 
+    /**
+     * Constructer al clasei
+     *
+     * @param meteoData Informatiile pentru aplicatie(tari,orase...).
+     */
     public Controller(ObservableList<Model> meteoData) {
         this.meteoData = meteoData;
     }
 
+    /**
+     * Metoda de initializare.
+     * Aici se initializeaza tabelul cu tari si se adauga Listener pentru
+     * lista de tari si altul pentru lista de orase.
+     */
     @FXML
     private void initialize() {
         // Initialize the person table with the two columns.
@@ -64,7 +81,11 @@ public class Controller {
         optiuniTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Model>() {
             @Override
             public void changed(ObservableValue<? extends Model> observable, Model oldValue, Model newValue) {
-                ShowOrase(newValue);
+                try {
+                    ShowOrase(newValue);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
         orasTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<oras>() {
@@ -81,7 +102,12 @@ public class Controller {
 
     }
 
-    private void ShowOrase(Model oras) {
+    /**
+     * Metoda de actualizare a listei de orase.
+     * Aceasta metoda este apelata de listenerul listei de tari.
+     */
+
+    private void ShowOrase(Model oras) throws IOException {
         if (oras != null) {
             orasData.clear();
             for (int i = 0; i < oras.orasProperty().size(); i++) {
@@ -89,9 +115,23 @@ public class Controller {
             }
         } else {
             orasData.clear();
+            throw new IOException("Modelul este gol");
         }
     }
 
+    public Double getTemperatura(JsonObject obiect) {
+        return obiect.getDouble("temp", 0);
+
+    }
+
+    public Double getPresiune(JsonObject obiect) {
+        return obiect.asObject().getDouble("pressure", 0);
+    }
+
+    /**
+     * Metoda de actualizare a informatiilor despre un oras.
+     * Aceasta metoda este apelata de listenerul listei de orase.
+     */
     private void ShowInfo(oras _oras) throws IOException {
         if (_oras != null) {
             oras.setText(_oras.getOras());
@@ -114,8 +154,8 @@ public class Controller {
 
             }
             JsonObject temp = Json.parse(String.valueOf(result)).asObject().get("main").asObject();
-            double _temperatura = temp.getDouble("temp", 0);
-            double _presiune = temp.asObject().getDouble("pressure", 0);
+            double _temperatura = getTemperatura(temp);
+            double _presiune = getPresiune(temp);
             double _umiditate = temp.asObject().getDouble("humidity", 0);
             temperatura.setText(String.valueOf(_temperatura) + " ºC");
             presiune.setText(String.valueOf(_presiune) + " mmHg");
@@ -147,6 +187,7 @@ public class Controller {
             presiune.setText("");
             umiditate.setText("");
             vant.setText("");
+            throw new IOException("Oras inexistent");
         }
     }
 }
