@@ -1,4 +1,5 @@
 package ro.mta.se.lab.controller;
+
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -27,15 +28,15 @@ import javax.lang.model.type.NullType;
 
 public class Controller {
     private ObservableList<Model> meteoData;
-    private ObservableList<ro.mta.se.lab.model.oras> orasData=FXCollections.observableArrayList();
+    private ObservableList<ro.mta.se.lab.model.oras> orasData = FXCollections.observableArrayList();
     @FXML
     private TableView<Model> optiuniTable;
     @FXML
     private TableView<oras> orasTable;
     @FXML
-    private TableColumn<Model,String> taraColumn;
+    private TableColumn<Model, String> taraColumn;
     @FXML
-    private TableColumn<oras,String> orasColumn;
+    private TableColumn<oras, String> orasColumn;
     @FXML
     private Label oras;
     @FXML
@@ -48,9 +49,11 @@ public class Controller {
     private Label presiune;
     @FXML
     private Label umiditate;
+
     public Controller(ObservableList<Model> meteoData) {
         this.meteoData = meteoData;
     }
+
     @FXML
     private void initialize() {
         // Initialize the person table with the two columns.
@@ -76,7 +79,6 @@ public class Controller {
         });
 
 
-
     }
 
     private void ShowOrase(Model oras) {
@@ -85,66 +87,60 @@ public class Controller {
             for (int i = 0; i < oras.orasProperty().size(); i++) {
                 orasData.add(new oras(oras.getTara(), oras.orasProperty().get(i).getValue().toString(), oras.getLatitudine().get(i).doubleValue(), oras.longitudineProperty().get(i).doubleValue()));
             }
-        }
-        else
-        {
+        } else {
             orasData.clear();
         }
     }
-    private void ShowInfo(oras _oras) throws IOException {
-        if(_oras!=null)
-        {
-            oras.setText(_oras.getOras());
-                String API_KEY = "d3339fef53127fb39334d4cf514533b8";
-                String LOCATION = _oras.getOras() + "," + _oras.getTara();
-                String urlString = "http://api.openweathermap.org/data/2.5/weather?q=" + LOCATION + "&appid=" + API_KEY + "&units=metric";
-                StringBuilder result = new StringBuilder();
-                URL url = new URL(urlString);
-                URLConnection conn = url.openConnection();
-                BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                String line;
-                while ((line = rd.readLine()) != null) {
-                    result.append(line);
-                }
-                JsonArray items = Json.parse(String.valueOf(result)).asObject().get("weather").asArray();
-                for (JsonValue item : items) {
-                    String principal = item.asObject().getString("main", "Unknown Item");
-                    String _descriere = item.asObject().getString("description", "Unknown Item");
-                    descriere.setText(_descriere);
 
-                }
-                JsonObject temp=Json.parse(String.valueOf(result)).asObject().get("main").asObject();
-                double _temperatura = temp.getDouble("temp", 0);
-                double _presiune=temp.asObject().getDouble("pressure", 0);
-                double _umiditate=temp.asObject().getDouble("humidity", 0);
-                temperatura.setText(String.valueOf(_temperatura)+" ºC");
-                presiune.setText(String.valueOf(_presiune)+" mmHg");
-                umiditate.setText(String.valueOf(_umiditate)+" %");
-                JsonObject temp1=Json.parse(String.valueOf(result)).asObject().get("wind").asObject();
-                double viteza_vant=temp1.getDouble("speed",0);
-                vant.setText(String.valueOf(viteza_vant)+" m/s");
+    private void ShowInfo(oras _oras) throws IOException {
+        if (_oras != null) {
+            oras.setText(_oras.getOras());
+            String API_KEY = "d3339fef53127fb39334d4cf514533b8";
+            String LOCATION = _oras.getOras() + "," + _oras.getTara();
+            String urlString = "http://api.openweathermap.org/data/2.5/weather?q=" + LOCATION + "&appid=" + API_KEY + "&units=metric";
+            StringBuilder result = new StringBuilder();
+            URL url = new URL(urlString);
+            URLConnection conn = url.openConnection();
+            BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String line;
+            while ((line = rd.readLine()) != null) {
+                result.append(line);
+            }
+            JsonArray items = Json.parse(String.valueOf(result)).asObject().get("weather").asArray();
+            for (JsonValue item : items) {
+                String principal = item.asObject().getString("main", "Unknown Item");
+                String _descriere = item.asObject().getString("description", "Unknown Item");
+                descriere.setText(_descriere);
+
+            }
+            JsonObject temp = Json.parse(String.valueOf(result)).asObject().get("main").asObject();
+            double _temperatura = temp.getDouble("temp", 0);
+            double _presiune = temp.asObject().getDouble("pressure", 0);
+            double _umiditate = temp.asObject().getDouble("humidity", 0);
+            temperatura.setText(String.valueOf(_temperatura) + " ºC");
+            presiune.setText(String.valueOf(_presiune) + " mmHg");
+            umiditate.setText(String.valueOf(_umiditate) + " %");
+            JsonObject temp1 = Json.parse(String.valueOf(result)).asObject().get("wind").asObject();
+            double viteza_vant = temp1.getDouble("speed", 0);
+            vant.setText(String.valueOf(viteza_vant) + " m/s");
             try {
                 File afisari = new File("afisari.log");
                 FileWriter fr = new FileWriter(afisari, true);
                 String complete_data;
                 Date date = new Date(); // This object contains the current date value
-                String data="Temperatura:"+temperatura.getText()+" "+"presiunea:"+presiune.getText()+"";
-                data=data+" umiditatea:"+umiditate.getText()+""+" vant:"+viteza_vant+"m/s Descriere:"+descriere.getText()+" Oras:"+oras.getText()+" Tara:"+_oras.getTara();
+                String data = "Temperatura:" + temperatura.getText() + " " + "presiunea:" + presiune.getText() + "";
+                data = data + " umiditatea:" + umiditate.getText() + "" + " vant:" + viteza_vant + "m/s Descriere:" + descriere.getText() + " Oras:" + oras.getText() + " Tara:" + _oras.getTara();
                 SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-                complete_data=formatter.format(date);
-                complete_data+=" "+data;
-                fr.write(complete_data+"\n");
+                complete_data = formatter.format(date);
+                complete_data += " " + data;
+                fr.write(complete_data + "\n");
                 fr.close();
-            }
-            catch (IOException e)
-            {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
 
 
-        }
-        else
-        {
+        } else {
             oras.setText("");
             descriere.setText("");
             temperatura.setText("");

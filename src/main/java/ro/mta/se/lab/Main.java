@@ -16,11 +16,11 @@ import java.util.Scanner;
 public class Main extends Application {
     private ObservableList<Model> meteoData = FXCollections.observableArrayList();
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         launch(args);
     }
-    public void initializeMeteo()  {
+
+    public void initializeMeteo() {
 
         try {
             File Orase = new File("orase.txt");
@@ -28,42 +28,37 @@ public class Main extends Application {
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
                 String[] tokens = data.split("\t");
-                if(meteoData.size()>0) {
+                if (meteoData.size() > 0) {
                     Integer i;
                     boolean ok;
-                    ok=true;
+                    ok = true;
                     for (i = 0; i < meteoData.size(); i++) {
-                        if(meteoData.get(i).getTara().equals(tokens[4]))
-                        {
-                            ok=false;
+                        if (meteoData.get(i).getTara().equals(tokens[4])) {
+                            ok = false;
                             meteoData.get(i).setOras(tokens[1]);
                             meteoData.get(i).setLatitudine(Double.valueOf(tokens[2]));
                             meteoData.get(i).setLongitudine(Double.valueOf(tokens[3]));
                             break;
                         }
                     }
-                    if(ok==true)
-                    {
+                    if (ok == true) {
                         meteoData.add(new Model(tokens[4], tokens[1], Double.valueOf(tokens[2]), Double.valueOf(tokens[3])));
                     }
 
-                }
-                else
-                {
+                } else {
                     meteoData.add(new Model(tokens[4], tokens[1], Double.valueOf(tokens[2]), Double.valueOf(tokens[3])));
                 }
             }
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
-       // meteoData.add(new Model("Romania", "Bucuresti", 23.5, 23.0));
+        // meteoData.add(new Model("Romania", "Bucuresti", 23.5, 23.0));
         //meteoData.add(new Model("Romania", "Brasov", 13.5, 45.0));
-      //  meteoData.add(new Model("Romania", "Timisoara", 29, 15.0));
+        //  meteoData.add(new Model("Romania", "Timisoara", 29, 15.0));
 
     }
-    public void start(Stage primaryStage)  {
+
+    public void start(Stage primaryStage) {
         FXMLLoader loader = new FXMLLoader();
         initializeMeteo();
         try {
