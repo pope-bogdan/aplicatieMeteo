@@ -16,7 +16,7 @@ Proiectul se ruleaza cu maven. Dupa rulare interfata grafica are doua liste, una
 ![alt text](https://github.com/pope-bogdan/aplicatieMeteo/blob/master/src/Capture.JPG?raw=true "Logo Title Text 1")
 
 ### Diagrama de secventa
-![alt text](https://raw.githubusercontent.com/pope-bogdan/aplicatieMeteo/master/src/sequence%20diagram.JPG?token=ARQPOWLJ4VMLOKEJ2SWHBP277XSDM "Diagram de secventa")
+![alt text](https://github.com/pope-bogdan/aplicatieMeteo/blob/master/src/sequence%20diagram.JPG?raw=true "Diagram de secventa")
 
 ### Diagrama cazurilor de utilizare
-![alt text](https://raw.githubusercontent.com/pope-bogdan/aplicatieMeteo/master/src/use%20case%20diagram.JPG?token=ARQPOWLWVBYKKNIGMKLF4FC77XSI4 "Diagrama cazurilor de utilizare")
+![alt text](https://github.com/pope-bogdan/aplicatieMeteo/blob/master/src/use%20case%20diagram.JPG?raw=true "Diagrama cazurilor de utilizare")
