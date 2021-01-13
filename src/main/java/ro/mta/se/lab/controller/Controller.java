@@ -119,13 +119,38 @@ public class Controller {
         }
     }
 
-    public Double getTemperatura(JsonObject obiect) {
-        return obiect.getDouble("temp", 0);
+    public Double getTemperatura(oras _oras) throws IOException {
+        String API_KEY = "d3339fef53127fb39334d4cf514533b8";
+        String LOCATION = _oras.getOras() + "," + _oras.getTara();
+        String urlString = "http://api.openweathermap.org/data/2.5/weather?q=" + LOCATION + "&appid=" + API_KEY + "&units=metric";
+        StringBuilder result = new StringBuilder();
+        URL url = new URL(urlString);
+        URLConnection conn = url.openConnection();
+        BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        String line;
+        while ((line = rd.readLine()) != null) {
+            result.append(line);
+        }
+        JsonObject temp = Json.parse(String.valueOf(result)).asObject().get("main").asObject();
+        return temp.getDouble("temp", 0);
 
     }
 
-    public Double getPresiune(JsonObject obiect) {
-        return obiect.asObject().getDouble("pressure", 0);
+    public Double getPresiune(oras _oras) throws IOException {
+        String API_KEY = "d3339fef53127fb39334d4cf514533b8";
+        String LOCATION = _oras.getOras() + "," + _oras.getTara();
+        String urlString = "http://api.openweathermap.org/data/2.5/weather?q=" + LOCATION + "&appid=" + API_KEY + "&units=metric";
+        StringBuilder result = new StringBuilder();
+        URL url = new URL(urlString);
+        URLConnection conn = url.openConnection();
+        BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        String line;
+        while ((line = rd.readLine()) != null) {
+            result.append(line);
+        }
+        JsonObject temp = Json.parse(String.valueOf(result)).asObject().get("main").asObject();
+        return temp.getDouble("pressure", 0);
+
     }
 
     /**
@@ -154,8 +179,8 @@ public class Controller {
 
             }
             JsonObject temp = Json.parse(String.valueOf(result)).asObject().get("main").asObject();
-            double _temperatura = getTemperatura(temp);
-            double _presiune = getPresiune(temp);
+            double _temperatura = getTemperatura(_oras);
+            double _presiune = getPresiune(_oras);
             double _umiditate = temp.asObject().getDouble("humidity", 0);
             temperatura.setText(String.valueOf(_temperatura) + " ºC");
             presiune.setText(String.valueOf(_presiune) + " mmHg");
@@ -187,7 +212,6 @@ public class Controller {
             presiune.setText("");
             umiditate.setText("");
             vant.setText("");
-            throw new IOException("Oras inexistent");
         }
     }
 }
